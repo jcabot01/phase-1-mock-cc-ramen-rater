@@ -2,13 +2,13 @@
 const baseUrl = "http://localhost:3000/ramens"
 
 //define variables
-
 const ramenDetail = document.getElementById('ramen-detail') //assign variable to ramen-detail so we can host whole menu item; image, name, etc.
 // const onLoadEvent = ( => {
 //     let bigImage = document.getElementById('ramen-detail')
 //     bigImage.addEventListener('load', (event) => {
 //         console.log('Logo has been loaded!');
 //         logo.src = "logo.png"
+
 
 //fetches
 //GET
@@ -69,24 +69,27 @@ const renderRamenMeal = ramenObj => { //take in each ramenObj, and let's assign 
             //   "comment": "My absolute fave!"
 
     //create containers for images
+    const imgContainer = document.createElement('container')
     const img = document.createElement('img') //create an HTML img tag to display each item's picture
     img.src = ramenObj.image //connect HTML element with db.json data
 
-     //define destination container for pictures
-    const ramenMenu = document.querySelector("#ramen-menu") //assign variable to ramen-menu div so we can have a gellery of all menu items.
-    ramenMenu.append(img)   //append all ramen images to ramenMenu <div>
-
     //create a delete button incase our review is too harsh and we don't want to hurt anyone's feelings
     const deleteBtn = document.createElement('button') //create HTML element and define as an a variable in this scope
-    deleteBtn.dataset.id = ramenObj.id //assign the HTML delete button to the ramen Object id
-    deleteBtn.innerText = 'Remove'
-    deleteBtn.style.flex
-    ramenMenu.append(deleteBtn)
+        deleteBtn.dataset.id = ramenObj.id //assign the HTML delete button to the ramen Object id
+        deleteBtn.innerText = 'Remove'
+        deleteBtn.className = 'remove-btn'
+        deleteBtn.style.cssText = 'display:flex;margin-left:33%'   
 
+    imgContainer.append(img, deleteBtn)
+    
+
+    //define destination container for pictures
+    const ramenMenu = document.querySelector("#ramen-menu") //assign variable to ramen-menu div so we can have a gellery of all menu items.
+    ramenMenu.append(imgContainer)   //append all ramen images to ramenMenu <div>
 
     deleteBtn.addEventListener('click', (e) => { //pass in click event...
         const id = e.target.dataset.id
-        console.log(id)
+        // console.log(id)
         fetch(baseUrl + `/${id}`, {method: "DELETE"})
         .then(res => res.json())
         .then(console.log) 
